@@ -1,0 +1,90 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CSem	sem.cpp	/^CSem::CSem(key_t tKey, int iSems, int iMode)$/;"	f	class:CSem
+CSem	sem.h	/^class CSem$/;"	c
+ConnectionMaster	connectionMaster.cpp	/^ConnectionMaster::ConnectionMaster(Parameter * a_ptPara)$/;"	f	class:ConnectionMaster
+ConnectionMaster	connectionMaster.h	/^class ConnectionMaster$/;"	c
+DataHead_t	shmQueue.h	/^        } DataHead_t;$/;"	t	class:ShmQueue	typeref:struct:ShmQueue::tagDataHead
+GetAll	sem.cpp	/^void CSem::GetAll(unsigned short int* pusiArray)$/;"	f	class:CSem
+GetSem	sem.cpp	/^void CSem::GetSem(int iMode)$/;"	f	class:CSem
+GetValue	sem.cpp	/^int CSem::GetValue(int iSemNum)$/;"	f	class:CSem
+IfCreate	sem.h	/^	bool IfCreate() { return m_bCreate; }$/;"	f	class:CSem
+InitSem	sem.cpp	/^void CSem::InitSem()$/;"	f	class:CSem
+Listen	Utils.cpp	/^int Utils :: Listen ( const unsigned short port, const int queueconn, const char *bindip)$/;"	f	class:Utils
+Lock	sem.cpp	/^bool CSem::Lock()$/;"	f	class:CSem
+Notify	notify.cpp	/^Notify::Notify()$/;"	f	class:Notify
+Notify	notify.h	/^class Notify$/;"	c
+Parameter	parameter.cpp	/^Parameter::Parameter()$/;"	f	class:Parameter
+Parameter	parameter.h	/^class Parameter$/;"	c
+ProcessMaster	processMaster.cpp	/^ProcessMaster::ProcessMaster(Parameter * a_ptPara)$/;"	f	class:ProcessMaster
+ProcessMaster	processMaster.h	/^class ProcessMaster$/;"	c
+QueueHead_t	shmQueue.h	/^        } QueueHead_t;$/;"	t	class:ShmQueue	typeref:struct:ShmQueue::tagQueueHead
+RemoveSem	sem.cpp	/^void CSem::RemoveSem()$/;"	f	class:CSem
+SemOp	sem.cpp	/^bool CSem::SemOp(int iSems, ...)$/;"	f	class:CSem
+SemOpWithUndo	sem.cpp	/^bool CSem::SemOpWithUndo(int iSems, ...)$/;"	f	class:CSem
+SetAll	sem.cpp	/^void CSem::SetAll(int iSems, ...)$/;"	f	class:CSem
+SetValue	sem.cpp	/^void CSem::SetValue(int iSemNum, int iValue)$/;"	f	class:CSem
+ShmQueue	shmQueue.cpp	/^ShmQueue::ShmQueue()$/;"	f	class:ShmQueue
+ShmQueue	shmQueue.h	/^class ShmQueue$/;"	c
+SvrKit	svrkit.cpp	/^SvrKit::SvrKit()$/;"	f	class:SvrKit
+SvrKit	svrkit.h	/^class SvrKit$/;"	c
+Unlock	sem.cpp	/^void CSem::Unlock()$/;"	f	class:CSem
+Utils	Utils.h	/^namespace Utils$/;"	n
+_NOTIFY_H_	parameter.h	2;"	d
+_PARAMETER_H_	connectionMaster.h	2;"	d
+_PARAMETER_H_	processMaster.h	2;"	d
+_SHMQUEUE_H_	parameter.h	7;"	d
+__buf	sem.h	/^  struct seminfo *__buf;      \/*!< buffer for IPC_INFO *\/$/;"	m	union:semun	typeref:struct:semun::seminfo
+array	sem.h	/^  unsigned short int *array;  \/*!< array for GETALL, SETALL *\/$/;"	m	union:semun
+atomPop	shmQueue.cpp	/^int ShmQueue::atomPop(char ** buf, int &len)$/;"	f	class:ShmQueue
+atomPush	shmQueue.cpp	/^int ShmQueue::atomPush(char *buf, int len)$/;"	f	class:ShmQueue
+base	parameter.h	/^        struct event_base *base;$/;"	m	class:Parameter	typeref:struct:Parameter::event_base
+buf	sem.h	/^  struct semid_ds *buf;       \/*!< buffer for IPC_STAT, IPC_SET *\/$/;"	m	union:semun	typeref:struct:semun::semid_ds
+childRun	processMaster.cpp	/^void ProcessMaster::childRun()$/;"	f	class:ProcessMaster
+connectionLayer	svrkit.cpp	/^void SvrKit::connectionLayer()$/;"	f	class:SvrKit
+data	shmQueue.h	/^            char data[1];$/;"	m	struct:ShmQueue::tagQueueHead
+folkAsDaemon	Utils.cpp	/^void Utils::folkAsDaemon()$/;"	f	class:Utils
+forkChildRun	processMaster.cpp	/^void ProcessMaster::forkChildRun()$/;"	f	class:ProcessMaster
+iDataLen	shmQueue.h	/^            int iDataLen;$/;"	m	struct:ShmQueue::tagDataHead
+iHeadPos	shmQueue.h	/^            int iHeadPos;$/;"	m	struct:ShmQueue::tagQueueHead
+iTailPos	shmQueue.h	/^            int iTailPos;$/;"	m	struct:ShmQueue::tagQueueHead
+init	notify.cpp	/^int Notify::init()$/;"	f	class:Notify
+init	shmQueue.cpp	/^int ShmQueue::init()$/;"	f	class:ShmQueue
+init	svrkit.cpp	/^int SvrKit::init()$/;"	f	class:SvrKit
+m_bCreate	sem.h	/^	bool m_bCreate;$/;"	m	class:CSem
+m_iSemId	sem.h	/^	int m_iSemId;$/;"	m	class:CSem
+m_iSems	sem.h	/^	int m_iSems;$/;"	m	class:CSem
+m_poSem	shmQueue.h	/^        CSem * m_poSem;        $/;"	m	class:ShmQueue
+m_ptHeader	shmQueue.h	/^        QueueHead_t * m_ptHeader;$/;"	m	class:ShmQueue
+m_ptPara	connectionMaster.h	/^        Parameter * m_ptPara;$/;"	m	class:ConnectionMaster
+m_ptPara	processMaster.h	/^        Parameter * m_ptPara;$/;"	m	class:ProcessMaster
+m_ptPara	svrkit.h	/^        Parameter * m_ptPara;$/;"	m	class:SvrKit
+m_tKey	sem.h	/^	key_t m_tKey;$/;"	m	class:CSem
+main	main.cpp	/^int main()$/;"	f
+onAccept	connectionMaster.cpp	/^void onAccept(int iSvrFd, short iEvent, void *arg) $/;"	f
+onRead	connectionMaster.cpp	/^void onRead(int iCliFd, short iEvent, void *arg) $/;"	f
+poInQueue	parameter.h	/^        ShmQueue * poInQueue;$/;"	m	class:Parameter
+poNotify	parameter.h	/^        Notify * poNotify;$/;"	m	class:Parameter
+poOutQueue	parameter.h	/^        ShmQueue * poOutQueue;$/;"	m	class:Parameter
+pop	shmQueue.cpp	/^int ShmQueue::pop(char ** buf, int &len)$/;"	f	class:ShmQueue
+processLayer	svrkit.cpp	/^void SvrKit::processLayer()$/;"	f	class:SvrKit
+push	shmQueue.cpp	/^int ShmQueue::push(char *buf, int len)$/;"	f	class:ShmQueue
+run	connectionMaster.cpp	/^void ConnectionMaster::run()$/;"	f	class:ConnectionMaster
+run	processMaster.cpp	/^void ProcessMaster::run()$/;"	f	class:ProcessMaster
+run	svrkit.cpp	/^void SvrKit::run()$/;"	f	class:SvrKit
+semun	sem.h	/^union semun {$/;"	u
+signalHandler	Utils.cpp	/^void Utils::signalHandler()$/;"	f	class:Utils
+tagDataHead	shmQueue.h	/^        typedef struct tagDataHead$/;"	s	class:ShmQueue
+tagQueueHead	shmQueue.h	/^        typedef struct tagQueueHead$/;"	s	class:ShmQueue
+val	sem.h	/^  int val;                    \/*!< value for SETVAL *\/$/;"	m	union:semun
+~CSem	sem.cpp	/^CSem::~CSem()$/;"	f	class:CSem
+~ConnectionMaster	connectionMaster.cpp	/^ConnectionMaster::~ConnectionMaster()$/;"	f	class:ConnectionMaster
+~Notify	notify.cpp	/^Notify::~Notify()$/;"	f	class:Notify
+~Parameter	parameter.cpp	/^Parameter::~Parameter()$/;"	f	class:Parameter
+~ProcessMaster	processMaster.cpp	/^ProcessMaster::~ProcessMaster()$/;"	f	class:ProcessMaster
+~ShmQueue	shmQueue.cpp	/^ShmQueue::~ShmQueue()$/;"	f	class:ShmQueue
+~SvrKit	svrkit.cpp	/^SvrKit::~SvrKit()$/;"	f	class:SvrKit
