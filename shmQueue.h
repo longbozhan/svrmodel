@@ -24,9 +24,12 @@ class ShmQueue
         int push(char *buf, int n);
         int pop(char ** buf, int &n);
         int init(int, const char *);
+        
+        int getUsedSize();
 
     private:
         QueueHead_t * m_ptHeader;
-        CSem * m_poSem;        
+        CSem * m_poSem;
+        int m_shmSize;      
 
 };

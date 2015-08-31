@@ -39,7 +39,6 @@ void onRead(int iCliFd, short iEvent, void *arg)
     {
         buf[iLen] = '\0';
         cout <<"recv: " << buf << "len: " << iLen << endl;
-        cout << "1:" << buf[1] << "2:" << buf[2] << endl;
         para->poInQueue->push(buf, iLen);
     }
    
