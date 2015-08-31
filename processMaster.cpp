@@ -31,7 +31,7 @@ void ProcessMaster::run()
         return;
     }
     
-    forkChildRun(5);
+    forkChildRun(1);
 
     while(true)
     {
@@ -46,7 +46,7 @@ void ProcessMaster::run()
                 forkChildRun(1);
             }
         }
-        printf("in process master...\n");
+       // printf("in process master...\n");
         sleep(1);
         //int pid = waitpid(-1, NOWHANG);
     }
@@ -87,17 +87,17 @@ void ProcessMaster::childRun()
     {
         char *buf = NULL;
         int ret = 0;
-        int n;
-        //FILE * fp = fopen("file.txt", "a+");
+        int n = 0;
+        FILE * fp = fopen("file.txt", "a+");
 
         while((ret = m_ptPara->poInQueue->pop(&buf, n)) != 0)
         {
             printf("pid(%d) sleep...\n", getpid());
             sleep(1);
         }
-        //fwrite(buf, sizeof(char), n, fp);
-        //fclose(fp);
-
+        fwrite(buf, sizeof(char), n, fp);
+        fclose(fp);
+        
         char * newBuf = new char[n + 1];
         memcpy(newBuf, buf, n);
         newBuf[n] = '\0';

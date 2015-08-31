@@ -72,9 +72,9 @@ int ShmQueue::push(char *buf, int len)
 {
     int ret = -1;
     assert ( m_poSem->SemOpWithUndo( 1, 0, -1 ) );
-    printf("before push\n");
+    //printf("before push\n");
     ret = atomPush (buf, len);
-    printf("after push\n");
+    //printf("after push\n");
     assert ( m_poSem->SemOpWithUndo( 1, 0, 1 ) );
     return ret;
 }
@@ -96,7 +96,7 @@ int ShmQueue::atomPush(char *buf, int len)
     int freeSize = m_shmSize - getUsedSize();
     if (totalLen > freeSize)
     {
-        printf("error, queue is full\n");
+//        printf("error, queue is full\n");
         return -1;
     }
 
@@ -147,6 +147,11 @@ int ShmQueue::atomPop(char ** buf, int &len)
             memcpy(p, m_ptHeader->data, sizeof(DataHead_t) - remain);
             
             len = header.iDataLen;
+            if (len <= 0)
+            {
+                printf("err data len\n");
+                return -2;
+            }
             *buf = new char[len];
             memcpy(*buf, m_ptHeader->data + sizeof(DataHead_t) - remain, len);
             m_ptHeader->iHeadPos = sizeof(DataHead_t) - remain + len;
@@ -155,11 +160,17 @@ int ShmQueue::atomPop(char ** buf, int &len)
         {
             memcpy(p, m_ptHeader->iHeadPos + m_ptHeader->data, sizeof(DataHead_t));
             len = header.iDataLen;
+            if (len <= 0)
+            {
+                printf("err data len\n");
+                return -3;
+            }
+ 
             *buf = new char[len];
-            remain = m_shmSize - m_ptHeader->iHeadPos;
+            p = *buf;
+            remain = m_shmSize - m_ptHeader->iHeadPos - sizeof(DataHead_t);
             if (remain < len) // data not full
             {
-                p = *buf;
                 memcpy(p, m_ptHeader->iHeadPos + m_ptHeader->data + sizeof(DataHead_t), remain);
                 p += remain;
                 memcpy(p, m_ptHeader->data, len - remain);
@@ -178,16 +189,13 @@ int ShmQueue::atomPop(char ** buf, int &len)
         if (header.iDataLen <= 0)
         {
             printf("data empty\n");
-            return -2;
+            return -4;
         }
         len = header.iDataLen;
         *buf = new char[len];
         memcpy(*buf, m_ptHeader->data + m_ptHeader->iHeadPos + sizeof(header), len);
         m_ptHeader->iHeadPos += sizeof(header) + len;
     }
-
-    delete buf;
-    buf = NULL;
 
     return 0;
 }
