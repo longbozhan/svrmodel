@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <iostream>
+#include <errno.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -16,6 +17,8 @@
 #include "Utils.h"
 
 using namespace std;
+
+int g_iListenFd;
 
 ConnectionMaster::ConnectionMaster(Parameter * a_ptPara)
 {
@@ -35,13 +38,21 @@ void onRead(int iCliFd, short iEvent, void *arg)
     cout << "on read" << endl;
 
     Parameter * para = (Parameter *) arg;
-    while((iLen = recv(iCliFd, buf, sizeof(buf) - 1, 0)) > 0)
+    while(true)
     {
+        iLen = recv(iCliFd, buf, sizeof(buf) - 1, 0);
+        if (iLen <= 0 && errno == EINTR)
+            continue;
+        else if (iLen <= 0)
+        {
+            cout <<"connect close" << endl;
+            break;
+        }
         buf[iLen] = '\0';
-        cout <<"recv: " << buf << "len: " << iLen << endl;
+        //cout <<"recv: " << buf << " len: " << iLen << endl;
         para->poInQueue->push(buf, iLen);
     }
-   
+    
     cout << "Client Close" << endl; 
    
     // 连接结束(=0)或连接错误(<0)，将事件删除并释放内存空间 
@@ -69,6 +80,11 @@ void onAccept(int iSvrFd, short iEvent, void *arg)
     event_set(pEvRead, iCliFd, EV_READ, onRead, para); 
     event_base_set(para->base, pEvRead); 
     event_add(pEvRead, NULL); 
+    
+    struct event evListen;
+    event_set(&evListen, g_iListenFd, EV_READ|EV_PERSIST, onAccept, para);
+    event_base_set(para->base, &evListen);
+    event_add(&evListen, NULL);
 } 
 
 void ConnectionMaster::run()
@@ -76,6 +92,7 @@ void ConnectionMaster::run()
     struct event_base *base = m_ptPara->base;
     
     int iListenFd = Utils::Listen(8888, 5, "127.0.0.1");
+    g_iListenFd = iListenFd;
 
     struct event evListen; 
     // 设置事件 
@@ -88,6 +105,6 @@ void ConnectionMaster::run()
     while(true)
     {
         event_base_loop(base, 0);
-    printf("...................\n");
+        printf("...................\n");
     }
 }

@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     //向服务器发起连接,连接成功后client_socket代表了客户机和服务器的一个socket连接
     if(connect(client_socket,(struct sockaddr*)&server_addr, server_addr_length) < 0)
     {
-        printf("Can Not Connect To %s!\n",argv[1]);
+        printf("Can Not Connect To %s!, err(%s)\n",argv[1], strerror(errno));
         exit(1);
     }
  
@@ -92,9 +92,9 @@ int main(int argc, char **argv)
         buffer[length] = '\0';
         printf("size(%d) read:%s\n", length, buffer);
         int write_length = send(client_socket, buffer, length, 0);
-        if (write_length<length)
+        if (write_length<length && errno != EINTR)
         {
-            printf("File:\t%s send Failed, err(%s)\n", file_name, strerror(errno));
+            printf("File:\t%s send Failed, err(%s), read(%d) send(%d)\n", file_name, strerror(errno), length, write_length);
             break;
         }
     }

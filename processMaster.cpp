@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 #include "processMaster.h"
 
@@ -87,11 +88,16 @@ void ProcessMaster::childRun()
         char *buf = NULL;
         int ret = 0;
         int n;
+        //FILE * fp = fopen("file.txt", "a+");
+
         while((ret = m_ptPara->poInQueue->pop(&buf, n)) != 0)
         {
             printf("pid(%d) sleep...\n", getpid());
             sleep(1);
         }
+        //fwrite(buf, sizeof(char), n, fp);
+        //fclose(fp);
+
         char * newBuf = new char[n + 1];
         memcpy(newBuf, buf, n);
         newBuf[n] = '\0';

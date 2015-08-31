@@ -101,7 +101,7 @@ int ShmQueue::atomPush(char *buf, int len)
     }
 
     char * tmpBuf = new char[totalLen];
-    memset(tmpBuf, 0, sizeof(buf));
+    memset(tmpBuf, 0, sizeof(totalLen));
     char * p = tmpBuf;
     memcpy(p, &dataHeader, sizeof(DataHead_t));
     p += sizeof(DataHead_t);
@@ -109,7 +109,7 @@ int ShmQueue::atomPush(char *buf, int len)
     p = tmpBuf;
     if (m_shmSize - m_ptHeader->iTailPos < totalLen) 
     {
-        int remain = m_shmSize - totalLen;
+        int remain = m_shmSize - m_ptHeader->iTailPos;
         memcpy(m_ptHeader->data + m_ptHeader->iTailPos, p, remain);
         p += remain;
         memcpy(m_ptHeader->data, p, totalLen - remain);
@@ -120,6 +120,8 @@ int ShmQueue::atomPush(char *buf, int len)
         memcpy(m_ptHeader->data + m_ptHeader->iTailPos, p, totalLen);
         m_ptHeader->iTailPos += totalLen;
     }
+    delete tmpBuf;
+    tmpBuf = NULL;
 }
 
 int ShmQueue::atomPop(char ** buf, int &len)
@@ -183,6 +185,9 @@ int ShmQueue::atomPop(char ** buf, int &len)
         memcpy(*buf, m_ptHeader->data + m_ptHeader->iHeadPos + sizeof(header), len);
         m_ptHeader->iHeadPos += sizeof(header) + len;
     }
+
+    delete buf;
+    buf = NULL;
 
     return 0;
 }

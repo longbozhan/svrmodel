@@ -53,13 +53,17 @@ int SvrKit::init()
         exit(0);
         while(1)
         {
+            printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
             char * buf;
-            int n;
+            int n = 0;
             int ret = m_ptPara->poInQueue->pop(&buf, n);
+            printf("ret:%d n:%d\n", ret, n);
             if (ret == 0 && n > 0)
             {
-                buf[n - 1] = '\0';
-                printf("get from pop:%s\n", buf);
+                printf("===================================pop size(%d)\n", n);
+                //fwrite(buf, sizeof(char), n, fp);
+                //fclose(fp);
+                //fp = fopen("file.txt", "a+");
             }
             sleep(1);
         }
