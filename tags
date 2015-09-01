@@ -3,12 +3,14 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
+BUFFER_SIZE	test/test_server.cpp	21;"	d	file:
 CSem	sem.cpp	/^CSem::CSem(key_t tKey, int iSems, int iMode)$/;"	f	class:CSem
 CSem	sem.h	/^class CSem$/;"	c
 ConnectionMaster	connectionMaster.cpp	/^ConnectionMaster::ConnectionMaster(Parameter * a_ptPara)$/;"	f	class:ConnectionMaster
 ConnectionMaster	connectionMaster.h	/^class ConnectionMaster$/;"	c
 DataHead_t	shmQueue.h	/^        } DataHead_t;$/;"	t	class:ShmQueue	typeref:struct:ShmQueue::tagDataHead
+FILE_NAME_MAX_SIZE	test/test_server.cpp	22;"	d	file:
 GetAll	sem.cpp	/^void CSem::GetAll(unsigned short int* pusiArray)$/;"	f	class:CSem
 GetSem	sem.cpp	/^void CSem::GetSem(int iMode)$/;"	f	class:CSem
 GetValue	sem.cpp	/^int CSem::GetValue(int iSemNum)$/;"	f	class:CSem
@@ -48,23 +50,29 @@ childRun	processMaster.cpp	/^void ProcessMaster::childRun()$/;"	f	class:ProcessM
 connectionLayer	svrkit.cpp	/^void SvrKit::connectionLayer()$/;"	f	class:SvrKit
 data	shmQueue.h	/^            char data[1];$/;"	m	struct:ShmQueue::tagQueueHead
 folkAsDaemon	Utils.cpp	/^void Utils::folkAsDaemon()$/;"	f	class:Utils
-forkChildRun	processMaster.cpp	/^void ProcessMaster::forkChildRun()$/;"	f	class:ProcessMaster
+forkChildRun	processMaster.cpp	/^void ProcessMaster::forkChildRun(int iChildNum)$/;"	f	class:ProcessMaster
+g_iListenFd	connectionMaster.cpp	/^int g_iListenFd;$/;"	v
+getUsedSize	shmQueue.cpp	/^int ShmQueue::getUsedSize()$/;"	f	class:ShmQueue
 iDataLen	shmQueue.h	/^            int iDataLen;$/;"	m	struct:ShmQueue::tagDataHead
 iHeadPos	shmQueue.h	/^            int iHeadPos;$/;"	m	struct:ShmQueue::tagQueueHead
 iTailPos	shmQueue.h	/^            int iTailPos;$/;"	m	struct:ShmQueue::tagQueueHead
 init	notify.cpp	/^int Notify::init()$/;"	f	class:Notify
-init	shmQueue.cpp	/^int ShmQueue::init()$/;"	f	class:ShmQueue
+init	shmQueue.cpp	/^int ShmQueue::init(int shmkey, const char * lockpath)$/;"	f	class:ShmQueue
 init	svrkit.cpp	/^int SvrKit::init()$/;"	f	class:SvrKit
 m_bCreate	sem.h	/^	bool m_bCreate;$/;"	m	class:CSem
 m_iSemId	sem.h	/^	int m_iSemId;$/;"	m	class:CSem
 m_iSems	sem.h	/^	int m_iSems;$/;"	m	class:CSem
-m_poSem	shmQueue.h	/^        CSem * m_poSem;        $/;"	m	class:ShmQueue
+m_mapPidInfo	processMaster.h	/^        map<int, int> m_mapPidInfo;$/;"	m	class:ProcessMaster
+m_poSem	shmQueue.h	/^        CSem * m_poSem;$/;"	m	class:ShmQueue
 m_ptHeader	shmQueue.h	/^        QueueHead_t * m_ptHeader;$/;"	m	class:ShmQueue
 m_ptPara	connectionMaster.h	/^        Parameter * m_ptPara;$/;"	m	class:ConnectionMaster
 m_ptPara	processMaster.h	/^        Parameter * m_ptPara;$/;"	m	class:ProcessMaster
 m_ptPara	svrkit.h	/^        Parameter * m_ptPara;$/;"	m	class:SvrKit
+m_shmSize	shmQueue.h	/^        int m_shmSize;      $/;"	m	class:ShmQueue
 m_tKey	sem.h	/^	key_t m_tKey;$/;"	m	class:CSem
 main	main.cpp	/^int main()$/;"	f
+main	test/test.cpp	/^int main(int argc, char * argv[])$/;"	f
+main	test/test_server.cpp	/^int main(int argc, char **argv)$/;"	f
 onAccept	connectionMaster.cpp	/^void onAccept(int iSvrFd, short iEvent, void *arg) $/;"	f
 onRead	connectionMaster.cpp	/^void onRead(int iCliFd, short iEvent, void *arg) $/;"	f
 poInQueue	parameter.h	/^        ShmQueue * poInQueue;$/;"	m	class:Parameter
@@ -77,9 +85,12 @@ run	connectionMaster.cpp	/^void ConnectionMaster::run()$/;"	f	class:ConnectionMa
 run	processMaster.cpp	/^void ProcessMaster::run()$/;"	f	class:ProcessMaster
 run	svrkit.cpp	/^void SvrKit::run()$/;"	f	class:SvrKit
 semun	sem.h	/^union semun {$/;"	u
+setUsedSize	shmQueue.cpp	/^void ShmQueue::setUsedSize(int useSize)$/;"	f	class:ShmQueue
 signalHandler	Utils.cpp	/^void Utils::signalHandler()$/;"	f	class:Utils
+tagDataHead	shmQueue.h	/^            tagDataHead()$/;"	f	struct:ShmQueue::tagDataHead
 tagDataHead	shmQueue.h	/^        typedef struct tagDataHead$/;"	s	class:ShmQueue
 tagQueueHead	shmQueue.h	/^        typedef struct tagQueueHead$/;"	s	class:ShmQueue
+usedSize	shmQueue.h	/^            int usedSize;$/;"	m	struct:ShmQueue::tagQueueHead
 val	sem.h	/^  int val;                    \/*!< value for SETVAL *\/$/;"	m	union:semun
 ~CSem	sem.cpp	/^CSem::~CSem()$/;"	f	class:CSem
 ~ConnectionMaster	connectionMaster.cpp	/^ConnectionMaster::~ConnectionMaster()$/;"	f	class:ConnectionMaster

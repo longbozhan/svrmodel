@@ -45,6 +45,7 @@ int ShmQueue::init(int shmkey, const char * lockpath)
         return -2;
     }
     m_ptHeader->iHeadPos = m_ptHeader->iTailPos = 0;
+    m_ptHeader->usedSize = 0;
     
     // sem lock
     key_t semkey = ftok( lockpath, 0 );
@@ -63,9 +64,15 @@ int ShmQueue::init(int shmkey, const char * lockpath)
     return 0;
 }
 
+void ShmQueue::setUsedSize(int useSize)
+{
+    m_ptHeader->usedSize = useSize;
+}
+
+
 int ShmQueue::getUsedSize()
 {
-    return (m_ptHeader->iTailPos - m_ptHeader->iHeadPos + m_shmSize) % (m_shmSize);
+    return m_ptHeader->usedSize;
 }
 
 int ShmQueue::push(char *buf, int len)
@@ -122,11 +129,20 @@ int ShmQueue::atomPush(char *buf, int len)
     }
     delete tmpBuf;
     tmpBuf = NULL;
+
+    int usedSize = (m_ptHeader->iTailPos - m_ptHeader->iHeadPos + m_shmSize) % m_shmSize;
+    if (usedSize == 0)
+        usedSize = m_shmSize;
+
+    setUsedSize(usedSize);
+    return 0;
 }
 
 int ShmQueue::atomPop(char ** buf, int &len)
 {
     int usedSize = getUsedSize();
+    
+    printf("head:%d tail:%d used:%d shmsize:%d\n", m_ptHeader->iHeadPos, m_ptHeader->iTailPos, usedSize, m_shmSize);
 
     if (usedSize < sizeof(DataHead_t))
     {
@@ -196,6 +212,10 @@ int ShmQueue::atomPop(char ** buf, int &len)
         memcpy(*buf, m_ptHeader->data + m_ptHeader->iHeadPos + sizeof(header), len);
         m_ptHeader->iHeadPos += sizeof(header) + len;
     }
+
+    usedSize = (m_ptHeader->iTailPos - m_ptHeader->iHeadPos + m_shmSize) % m_shmSize;
+
+    setUsedSize(usedSize);
 
     return 0;
 }
