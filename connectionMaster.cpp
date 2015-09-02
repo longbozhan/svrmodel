@@ -49,8 +49,14 @@ void onRead(int iCliFd, short iEvent, void *arg)
             break;
         }
         buf[iLen] = '\0';
-        //cout <<"recv: " << buf << " len: " << iLen << endl;
-        para->poInQueue->push(buf, iLen);
+      //  cout <<"recv: " << buf << " len: " << iLen << endl;
+        int times = 2;
+        int ret = 0;
+        while((ret = para->poInQueue->push(buf, iLen))!=0 && times--)
+        {
+            sleep(1);
+        }
+        
     }
     
     cout << "Client Close" << endl; 

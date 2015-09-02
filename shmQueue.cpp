@@ -106,18 +106,36 @@ int ShmQueue::atomPush(char *buf, int len)
 //        printf("error, queue is full\n");
         return -1;
     }
+    
+    for(int i = 0; i < len; i++)
+    {
+        dataHeader.iCheck += buf[i];
+    }
 
-    char * tmpBuf = new char[totalLen];
+    char * tmpBuf = new char[totalLen + 1];
     memset(tmpBuf, 0, sizeof(totalLen));
     char * p = tmpBuf;
     memcpy(p, &dataHeader, sizeof(DataHead_t));
     p += sizeof(DataHead_t);
     memcpy(p, buf, len);
     p = tmpBuf;
+
+    p[totalLen] = '\0';
+    
+    printf("push, head:%d tail:%d use:%d len:%d check:%d buf(%s)\n", 
+                m_ptHeader->iHeadPos, m_ptHeader->iTailPos, getUsedSize(), len, dataHeader.iCheck, (p+sizeof(DataHead_t)));
+    fflush(stdout);
+
     if (m_shmSize - m_ptHeader->iTailPos < totalLen) 
     {
+ 
         int remain = m_shmSize - m_ptHeader->iTailPos;
         memcpy(m_ptHeader->data + m_ptHeader->iTailPos, p, remain);
+        char *testbuf = new char[remain + 1];
+        memcpy(testbuf, m_ptHeader->data + m_ptHeader->iTailPos + sizeof(DataHead_t), remain - sizeof(DataHead_t));
+        testbuf[remain - sizeof(DataHead_t)] = '\0';
+        printf("testbuf(%s)\n", testbuf);
+        fflush(stdout);
         p += remain;
         memcpy(m_ptHeader->data, p, totalLen - remain);
         m_ptHeader->iTailPos = totalLen - remain;
@@ -142,7 +160,8 @@ int ShmQueue::atomPop(char ** buf, int &len)
 {
     int usedSize = getUsedSize();
     
-    printf("head:%d tail:%d used:%d shmsize:%d\n", m_ptHeader->iHeadPos, m_ptHeader->iTailPos, usedSize, m_shmSize);
+    printf("pop head:%d tail:%d used:%d shmsize:%d\n", m_ptHeader->iHeadPos, m_ptHeader->iTailPos, usedSize, m_shmSize);
+    fflush(stdout);
 
     if (usedSize < sizeof(DataHead_t))
     {
@@ -182,7 +201,7 @@ int ShmQueue::atomPop(char ** buf, int &len)
                 return -3;
             }
  
-            *buf = new char[len];
+            *buf = new char[len + 1];
             p = *buf;
             remain = m_shmSize - m_ptHeader->iHeadPos - sizeof(DataHead_t);
             if (remain < len) // data not full
@@ -190,6 +209,18 @@ int ShmQueue::atomPop(char ** buf, int &len)
                 memcpy(p, m_ptHeader->iHeadPos + m_ptHeader->data + sizeof(DataHead_t), remain);
                 p += remain;
                 memcpy(p, m_ptHeader->data, len - remain);
+
+                int check = 0;
+                for(int i = 0; i < len; i++)
+                {
+                    check += (*buf)[i];
+                }
+
+                (*buf)[len] = '\0';
+                printf("pop, head:%d tail:%d use:%d len:%d check:%d newcheck:%d buf(%s)\n", 
+                        m_ptHeader->iHeadPos, m_ptHeader->iTailPos, getUsedSize(), len, header.iCheck, check, *buf);
+                fflush(stdout);
+
                 m_ptHeader->iHeadPos = len - remain;
             }
             else

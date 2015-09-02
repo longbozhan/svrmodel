@@ -93,7 +93,7 @@ void ProcessMaster::childRun()
         while((ret = m_ptPara->poInQueue->pop(&buf, n)) != 0)
         {
             printf("pid(%d) sleep...\n", getpid());
-            sleep(1);
+            //sleep(1);
         }
         fwrite(buf, sizeof(char), n, fp);
         fclose(fp);

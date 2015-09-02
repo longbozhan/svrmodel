@@ -6,9 +6,11 @@ class ShmQueue
         typedef struct tagDataHead
         {
             int iDataLen;
+            int iCheck;
             tagDataHead()
             {
                 iDataLen = 0;
+                iCheck = 0;
             }
         } DataHead_t;
 
